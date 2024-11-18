@@ -1,2 +1,2 @@
-todo app w fastify
-- first time trying fastify
+# todo app w fastify
+first time trying fastify

@@ -1,33 +1,13 @@
+import schemas from "./schemas.js";
+
 const removeSpaces = (str) => str.replace(/\s+/g, " ");
 
 const taskRoutes = async (fastify, options) => {
-  const taskSchema = {
-    schema: {
-      body: {
-        type: "object",
-        properties: {
-          title: { type: "string" },
-        },
-        required: ["title"],
-        additionalProperties: false,
-      },
-      response: {
-        201: {
-          type: "object",
-          properties: {
-            message: { type: "string" },
-            id: { type: "number" },
-          },
-        },
-      },
-    },
-  };
-
   // get all tasks
   fastify.get("/", async (request, reply) => {
     try {
       const [rows] = await fastify.mysql.query("select * from task");
-      return rows;
+      return reply.status(200).send(rows);
     } catch (err) {
       fastify.log.error(err);
       return reply.status(500).send({ err: "smth went terribly wrong" });
@@ -35,7 +15,7 @@ const taskRoutes = async (fastify, options) => {
   });
 
   // create new task
-  fastify.post("/", taskSchema, async (request, reply) => {
+  fastify.post("/", schemas.postTaskSchema, async (request, reply) => {
     let { title } = request.body;
     title = removeSpaces(title.trim());
 
@@ -60,7 +40,7 @@ const taskRoutes = async (fastify, options) => {
   });
 
   // update an existing task
-  fastify.put("/", async (request, reply) => {
+  fastify.put("/", schemas.putTaskSchema, async (request, reply) => {
     const { id, title } = request.body;
     const [result] = await fastify.mysql.query(
       "update task set title = ? where id = ?",
@@ -70,7 +50,7 @@ const taskRoutes = async (fastify, options) => {
   });
 
   // delete a specific task
-  fastify.delete("/:id", async (request, reply) => {
+  fastify.delete("/:id", schemas.deleteTaskSchema, async (request, reply) => {
     const { id } = request.params;
     const [result] = await fastify.mysql.query(
       "delete from task where id = ?",

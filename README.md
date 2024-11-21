@@ -1,2 +1,5 @@
-# todo app w fastify
-trying it out
+# todo
+tools used:
+- fastify
+- mysql
+- vitest (for testing)

@@ -1,5 +1,6 @@
-# todo
+### todo
 tools used:
 - fastify
 - mysql
-- vitest (for testing)
+- vitest, supertest (for testing)
+- spaghet

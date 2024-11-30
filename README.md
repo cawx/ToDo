@@ -1,5 +1,5 @@
 ### todo
-tools used:
+stack
 - fastify
 - mysql
 - vitest, supertest (for testing)

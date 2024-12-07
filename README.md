@@ -3,4 +3,4 @@ stack
 - fastify
 - mysql
 - vitest, supertest (for testing)
-- spaghet
+- spaghet code
